@@ -1,3 +1,4 @@
+import { Routes, Route } from "react-router-dom";
 import { Navbar } from "./components";
 import { Register, Login } from "./pages";
 
@@ -6,7 +7,10 @@ function App() {
     <div className="h-dvh w-full">
       <Navbar />
 
-      <Login />
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
     </div>
   );
 }

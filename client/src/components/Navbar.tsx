@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { LuMenu, LuX } from "react-icons/lu";
 
 const Navbar = () => {
@@ -14,19 +15,19 @@ const Navbar = () => {
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* logo */}
         <div className="text-2xl font-bold text-gray-800">
-          <a href="">MyBlog</a>
+          <Link to="/">MyBlog</Link>
         </div>
 
         {/* for large screens */}
         <div className="hidden md:flex items-center space-x-6">
           {navItems.map((item) => (
-            <a
+            <Link
               key={item.href}
-              href={item.href}
+              to={item.href}
               className="text-gray-600 hover:text-black transition-colors duration-300"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </div>
 
@@ -46,13 +47,13 @@ const Navbar = () => {
         <div className="md:hidden bg-white shadow-md">
           <div className="px-4 pt-2 pb-4 space-y-2">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.href}
-                href={item.href}
+                to={item.href}
                 className="block text-gray-600 hover:text-black py-2"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
