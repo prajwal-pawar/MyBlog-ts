@@ -1,8 +1,66 @@
-import { useState } from "react";
+import { useState, FormEvent } from "react";
+import { Link } from "react-router-dom";
 import { LuEye, LuEyeOff } from "react-icons/lu";
+import toast from "react-hot-toast";
+import { axios, ENDPOINTS } from "../api";
+import { Loader } from "../components";
 
 const Register = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const validateFormFields = () => {
+    if (name.trim().length < 2) {
+      toast.error("Name must be at least 2 characters");
+      return false;
+    }
+
+    if (username.trim().length < 3) {
+      toast.error("Username must be at least 3 characters");
+      return false;
+    }
+
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+      toast.error(
+        "Username can only contain letters, numbers, and underscores"
+      );
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      if (!validateFormFields()) {
+        return;
+      }
+
+      const response = await axios.post(ENDPOINTS.AUTH.REGISTER, {
+        username,
+        name,
+        password,
+      });
+
+      console.log(response.data);
+
+      toast.success(response.data.message);
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.response.data.message);
+    } finally {
+      setLoading(false);
+      setName("");
+      setUsername("");
+      setPassword("");
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -14,7 +72,7 @@ const Register = () => {
           </p>
         </div>
 
-        <form className="mt-8 space-y-6">
+        <form className="mt-8 space-y-6" onSubmit={handleRegister}>
           <div className="space-y-4">
             <div>
               <label
@@ -27,6 +85,8 @@ const Register = () => {
                 type="text"
                 id="name"
                 placeholder="John Doe"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
@@ -42,7 +102,9 @@ const Register = () => {
               <input
                 type="text"
                 id="username"
-                placeholder="johndoe123"
+                placeholder="johndoe"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
@@ -60,6 +122,8 @@ const Register = () => {
                   type={showPassword ? "text" : "password"}
                   id="password"
                   placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                   className="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
                 />
@@ -81,20 +145,21 @@ const Register = () => {
           <div>
             <button
               type="submit"
+              disabled={loading}
               className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
             >
-              Create Account
+              {loading ? <Loader /> : "Create Account"}
             </button>
           </div>
 
           <div className="text-center text-sm">
             <span className="text-gray-600">Already have an account?</span>{" "}
-            <a
-              href="#"
+            <Link
+              to="/login"
               className="font-medium text-blue-600 hover:text-blue-500"
             >
               Sign In
-            </a>
+            </Link>
           </div>
         </form>
       </div>
