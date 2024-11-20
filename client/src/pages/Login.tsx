@@ -1,8 +1,47 @@
-import { useState } from "react";
+import { useState, FormEvent } from "react";
+import { Link } from "react-router-dom";
 import { LuEye, LuEyeOff } from "react-icons/lu";
+import toast from "react-hot-toast";
+import { axios, ENDPOINTS } from "../api";
+import { Loader } from "../components";
+import useAuth from "../hooks/useAuth";
 
 const Login = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const { setUser } = useAuth();
+
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await axios.post(
+        ENDPOINTS.AUTH.LOGIN,
+        { username, password },
+        { withCredentials: true }
+      );
+
+      console.log(response.data);
+
+      // save user in localstorage
+      localStorage.setItem("user", JSON.stringify(response.data.userInfo));
+      // set user in context api
+      setUser(response.data.userInfo);
+
+      toast.success(response.data.message);
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.response.data.message);
+    } finally {
+      setLoading(false);
+      setUsername("");
+      setPassword("");
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -12,7 +51,7 @@ const Login = () => {
           <p className="mt-2 text-sm text-gray-600">Sign in to your account</p>
         </div>
 
-        <form className="mt-8 space-y-6">
+        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
           <div className="space-y-4">
             <div>
               <label
@@ -24,7 +63,9 @@ const Login = () => {
               <input
                 type="text"
                 id="username"
-                placeholder="johndoe123"
+                placeholder="johndoe"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
@@ -42,6 +83,8 @@ const Login = () => {
                   type={showPassword ? "text" : "password"}
                   id="password"
                   placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                   className="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
                 />
@@ -69,20 +112,21 @@ const Login = () => {
           <div>
             <button
               type="submit"
+              disabled={loading}
               className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
             >
-              Sign In
+              {loading ? <Loader /> : "Sign In"}
             </button>
           </div>
 
           <div className="text-center text-sm">
             <span className="text-gray-600">Don't have an account?</span>{" "}
-            <a
-              href="#"
+            <Link
+              to="/register"
               className="font-medium text-blue-600 hover:text-blue-500"
             >
               Sign up
-            </a>
+            </Link>
           </div>
         </form>
       </div>
