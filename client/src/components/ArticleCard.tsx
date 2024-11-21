@@ -1,10 +1,10 @@
 import { LuEye, LuCalendar, LuUser } from "react-icons/lu";
 
-interface ArticleListProps {
+interface ArticleCardProps {
   article: any;
 }
 
-const ArticleList = ({ article }: ArticleListProps) => {
+const ArticleCard = ({ article }: ArticleCardProps) => {
   return (
     <>
       <div
@@ -48,4 +48,4 @@ const ArticleList = ({ article }: ArticleListProps) => {
   );
 };
 
-export default ArticleList;
+export default ArticleCard;

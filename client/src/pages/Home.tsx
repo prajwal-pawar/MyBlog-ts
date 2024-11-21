@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import toast from "react-hot-toast";
 import { LuSearch, LuX } from "react-icons/lu";
 import { axios, ENDPOINTS } from "../api";
-import { ArticleList, Loader } from "../components";
+import { ArticleCard, Loader } from "../components";
 
 const Home = () => {
   const [articles, setArticles] = useState<[]>([]);
@@ -124,7 +124,7 @@ const Home = () => {
           <>
             <div className="space-y-6">
               {articles.map((article) => (
-                <ArticleList article={article} />
+                <ArticleCard article={article} />
               ))}
             </div>
 
