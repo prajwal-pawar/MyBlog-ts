@@ -50,7 +50,8 @@ export const fetchAllArticles = async (req: Request, res: Response) => {
       .sort({ createdAt: "desc" })
       .skip((pageNumber - 1) * limitNumber)
       .limit(limitNumber)
-      .populate("user", "username");
+      // .populate("user", "username");
+      .populate("user", "name");
 
     return res.status(200).json({ articles, totalPages, totalArticles }) as any;
   } catch (err) {
@@ -79,7 +80,8 @@ export const getArticleById = async (req: Request, res: Response) => {
 export const getArticleBySlug = async (req: Request, res: Response) => {
   try {
     let article = await Article.findOne({ slug: req.params.slug })
-      .populate("user", "username")
+      // .populate("user", "username")
+      .populate("user", "name")
       .exec();
 
     if (!article) {
