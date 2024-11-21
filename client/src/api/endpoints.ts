@@ -14,7 +14,7 @@ export const ENDPOINTS = {
     CREATE: "/article/create",
     FETCH_ALL: "/article/fetch-all",
     GET_BY_ID: (id: string) => `/article/id/${id}`,
-    GET_BY_SLUG: (slug: string) => `/article/${slug},`,
+    GET_BY_SLUG: (slug: string) => `/article/${slug}`,
     UPDATE: (id: string) => `/article/update/${id}`,
     DELETE: (id: string) => `/article/delete/${id}`,
   },

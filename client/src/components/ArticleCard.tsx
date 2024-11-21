@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import { LuEye, LuCalendar, LuUser } from "react-icons/lu";
+import dayjs from "dayjs";
 
 interface ArticleCardProps {
   article: any;
@@ -24,23 +26,24 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
                 <LuUser size={16} className="text-gray-400" />
-                <span className="font-medium">{article.user.username}</span>
+                <span className="font-medium">{article.user.name}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <LuCalendar size={16} className="text-gray-400" />
-                <span>{new Date(article.createdAt).toLocaleDateString()}</span>
+                <span>{dayjs(article?.createdAt).format("DD MMM YYYY")}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <LuEye size={16} className="text-gray-400" />
                 <span>{article.views} views</span>
               </div>
             </div>
-            <button
+            <Link
+              to={`/article/${article.slug}`}
               className="px-4 py-2 bg-blue-50 text-blue-600 rounded-md 
                     hover:bg-blue-100 transition-colors duration-300"
             >
               Read More
-            </button>
+            </Link>
           </div>
         </div>
       </div>
