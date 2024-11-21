@@ -1,14 +1,22 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { LuMenu, LuX } from "react-icons/lu";
+import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const navItems = [
-    { label: "Register", href: "/register" },
-    { label: "Login", href: "/login" },
-  ];
+  const { user } = useAuth();
+
+  const navItems = user
+    ? [
+        { label: "Home", href: "/" },
+        { label: "Create Article", href: "/article/create" },
+      ]
+    : [
+        { label: "Register", href: "/register" },
+        { label: "Login", href: "/login" },
+      ];
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-white/90 backdrop-blur-md shadow-sm z-50">
