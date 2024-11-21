@@ -21,6 +21,7 @@ const Home = () => {
         withCredentials: true,
         params: {
           searchQuery: debouncedSearchQuery,
+          page: currentPage,
         },
       });
 
