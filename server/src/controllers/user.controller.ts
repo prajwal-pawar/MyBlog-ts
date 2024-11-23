@@ -72,9 +72,12 @@ export const updateUser = async (req: Request, res: Response) => {
 
     await user.save();
 
+    // destructure all user info and password separately
+    const { password, ...userInfo } = user._doc;
+
     return res
       .status(200)
-      .json({ message: "User updated successfully" }) as any;
+      .json({ message: "User updated successfully", user: userInfo }) as any;
   } catch (err) {
     console.error("Error in updating user", err);
     return res.status(500).json({ message: "Internal server error" }) as any;
