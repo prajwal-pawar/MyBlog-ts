@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { LuCalendar, LuPenSquare, LuTrash2 } from "react-icons/lu";
 import dayjs from "dayjs";
@@ -95,7 +95,6 @@ const UserProfile = () => {
                 <div>
                   <h1 className="text-2xl font-bold">{userInfo?.name}</h1>
                   <p className="text-gray-600">@{userInfo?.username}</p>
-                  {/* <p className="mt-2 text-gray-700">{userInfo?.bio}</p> */}
                   <div className="flex items-center gap-2 mt-3 text-gray-600 text-sm">
                     <LuCalendar className="stroke-2" />
                     <span>
@@ -108,12 +107,13 @@ const UserProfile = () => {
               {/* show action buttons if user is authorized */}
               {user?._id === userInfo?._id && (
                 <div className="flex gap-3">
-                  <button
+                  <Link
+                    to="/user/update"
                     className="text-gray-700 hover:bg-gray-100 p-2 rounded-full transition-colors"
                     title="Edit Profile"
                   >
                     <LuPenSquare className="stroke-2" />
-                  </button>
+                  </Link>
                   <button
                     className="text-red-600 hover:bg-red-50 p-2 rounded-full transition-colors"
                     title="Delete Profile"
