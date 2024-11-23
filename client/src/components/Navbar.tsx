@@ -87,7 +87,7 @@ const Navbar = () => {
               {isUserDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg">
                   <Link
-                    to="/profile"
+                    to={`/user/profile/${user._id}`}
                     className="flex items-center px-4 py-2 text-gray-600 hover:text-black hover:bg-gray-100"
                     onClick={() => setIsUserDropdownOpen(false)}
                   >
