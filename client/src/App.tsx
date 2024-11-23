@@ -2,7 +2,14 @@ import { Routes, Route } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { Navbar } from "./components";
-import { Register, Login, Home, CreateArticle, Article } from "./pages";
+import {
+  Register,
+  Login,
+  Home,
+  CreateArticle,
+  Article,
+  UserProfile,
+} from "./pages";
 import useAuth from "./hooks/useAuth";
 
 function App() {
@@ -38,6 +45,10 @@ function App() {
         <Route
           path="/article/:slug"
           element={user ? <Article /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/user/profile/:id"
+          element={user ? <UserProfile /> : <Navigate to="/login" />}
         />
       </Routes>
     </div>
