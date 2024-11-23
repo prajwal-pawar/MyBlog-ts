@@ -9,6 +9,7 @@ import {
   CreateArticle,
   Article,
   UserProfile,
+  UpdateUser,
 } from "./pages";
 import useAuth from "./hooks/useAuth";
 
@@ -49,6 +50,10 @@ function App() {
         <Route
           path="/user/profile/:id"
           element={user ? <UserProfile /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/user/update"
+          element={user ? <UpdateUser /> : <Navigate to="/login" />}
         />
       </Routes>
     </div>
