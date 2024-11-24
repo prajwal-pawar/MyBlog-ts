@@ -23,7 +23,8 @@ export const profile = async (req: Request, res: Response) => {
 
 export const userArticles = async (req: Request, res: Response) => {
   try {
-    let articles = await Article.find({ user: req.user?.userId });
+    // let articles = await Article.find({ user: req.user?.userId });
+    let articles = await Article.find({ user: req.params.id });
 
     return res.status(200).json({ articles }) as any;
   } catch (err) {

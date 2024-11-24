@@ -11,7 +11,7 @@ import upload from "../configs/multer";
 const router = express.Router();
 
 router.get("/profile/:id", authenticateToken, profile);
-router.get("/articles", authenticateToken, userArticles);
+router.get("/articles/:id", authenticateToken, userArticles);
 router.put("/update", authenticateToken, upload.single("avatar"), updateUser);
 router.delete("/delete", authenticateToken, deleteUser);
 
