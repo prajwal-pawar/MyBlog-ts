@@ -7,7 +7,7 @@ export const ENDPOINTS = {
   },
   USERS: {
     PROFILE: (id: string) => `/user/profile/${id}`,
-    ARTICLES: "/user/articles",
+    ARTICLES: (id: string) => `/user/articles/${id}`,
     UPDATE: "/user/update",
     DELETE: "/user/delete",
   },
