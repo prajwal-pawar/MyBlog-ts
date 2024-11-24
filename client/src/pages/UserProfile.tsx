@@ -161,12 +161,13 @@ const UserProfile = () => {
                       {/* show action buttons if user is authorized */}
                       {user?._id === userInfo?._id && (
                         <div className="flex gap-2">
-                          <button
+                          <Link
+                            to={`/article/update/${article._id}`}
                             className="text-gray-600 hover:bg-gray-100 p-2 rounded-full transition-colors"
                             title="Edit Article"
                           >
                             <LuPenSquare />
-                          </button>
+                          </Link>
                           <button
                             className="text-red-600 hover:bg-red-50 p-2 rounded-full transition-colors"
                             title="Delete Article"

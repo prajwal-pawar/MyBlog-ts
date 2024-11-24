@@ -5,6 +5,7 @@ import CreateArticle from "./CreateArticle";
 import Article from "./Article";
 import UserProfile from "./UserProfile";
 import UpdateUser from "./UpdateUser";
+import UpdateArticle from "./UpdateArticle";
 
 export {
   Register,
@@ -14,4 +15,5 @@ export {
   Article,
   UserProfile,
   UpdateUser,
+  UpdateArticle,
 };
