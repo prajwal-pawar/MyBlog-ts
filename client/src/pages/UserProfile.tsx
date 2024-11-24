@@ -43,11 +43,11 @@ const UserProfile = () => {
     };
 
     // fetch user articles
-    const fetchUserArticles = async () => {
+    const fetchUserArticles = async (id: any) => {
       setLoading(true);
 
       try {
-        const response = await axios.get(ENDPOINTS.USERS.ARTICLES, {
+        const response = await axios.get(ENDPOINTS.USERS.ARTICLES(id), {
           withCredentials: true,
         });
 
@@ -63,7 +63,7 @@ const UserProfile = () => {
     };
 
     fetchUser(id);
-    fetchUserArticles();
+    fetchUserArticles(id);
   }, [id]);
 
   if (loading) {
@@ -148,7 +148,9 @@ const UserProfile = () => {
                       <div className="flex items-center gap-4">
                         <div>
                           <h3 className="font-medium text-gray-900">
-                            {article.title}
+                            <Link to={`/article/${article.slug}`}>
+                              {article.title}
+                            </Link>
                           </h3>
                           <p className="text-sm text-gray-500 mt-1">
                             {dayjs(article.createdAt).format("DD MMM YYYY")}
