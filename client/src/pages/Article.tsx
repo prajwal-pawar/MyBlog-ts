@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { LuEye, LuClock, LuUser } from "react-icons/lu";
 import dayjs from "dayjs";
@@ -76,7 +76,11 @@ const Article = () => {
         <div className="flex flex-wrap justify-center items-center space-x-2 sm:space-x-4 text-gray-500 text-sm sm:text-base">
           <div className="flex items-center space-x-2">
             <LuUser className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span>{article?.user?.name}</span>
+            <span className="hover:text-black hover:underline hover:cursor-pointer transition-colors">
+              <Link to={`/user/profile/${article?.user?._id}`}>
+                {article?.user?.name}
+              </Link>
+            </span>
           </div>
 
           <span className="hidden sm:inline">•</span>
