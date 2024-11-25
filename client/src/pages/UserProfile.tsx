@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { LuCalendar, LuPenSquare, LuTrash2 } from "react-icons/lu";
 import dayjs from "dayjs";
@@ -18,7 +18,9 @@ const UserProfile = () => {
   // get id from url params
   const { id } = useParams();
   // get user from context
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
+
+  const navigate = useNavigate();
 
   // fetch user
   useEffect(() => {
@@ -65,6 +67,54 @@ const UserProfile = () => {
     fetchUser(id);
     fetchUserArticles(id);
   }, [id]);
+
+  const handleDeleteUser = async () => {
+    setLoading(true);
+
+    try {
+      const response = await axios.delete(ENDPOINTS.USERS.DELETE, {
+        withCredentials: true,
+      });
+
+      console.log(response.data);
+
+      // set user null in context
+      setUser(null);
+      // remove user from localstorage
+      localStorage.removeItem("user");
+      // navigate to login screen
+      navigate("/login");
+
+      toast.success(response.data.message);
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteArticle = async (id: any) => {
+    setLoading(true);
+
+    try {
+      const response = await axios.delete(ENDPOINTS.ARTICLES.DELETE(id), {
+        withCredentials: true,
+      });
+
+      console.log(response.data);
+
+      // remove deleted articles from articles state
+      setUserArticles(userArticles.filter((article) => article._id !== id));
+
+      toast.success(response.data.message);
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return <Loader />;
@@ -115,6 +165,7 @@ const UserProfile = () => {
                     <LuPenSquare className="stroke-2" />
                   </Link>
                   <button
+                    onClick={handleDeleteUser}
                     className="text-red-600 hover:bg-red-50 p-2 rounded-full transition-colors"
                     title="Delete Profile"
                   >
@@ -169,6 +220,7 @@ const UserProfile = () => {
                             <LuPenSquare />
                           </Link>
                           <button
+                            onClick={() => handleDeleteArticle(article._id)}
                             className="text-red-600 hover:bg-red-50 p-2 rounded-full transition-colors"
                             title="Delete Article"
                           >
