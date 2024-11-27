@@ -19,4 +19,8 @@ export const ENDPOINTS = {
     UPDATE: (id: string) => `/article/update/${id}`,
     DELETE: (id: string) => `/article/delete/${id}`,
   },
+  COMMENTS: {
+    CREATE: "/comment/create",
+    DELETE: (id: string) => `/comment/delete/${id}`,
+  },
 };
