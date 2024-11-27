@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import fs from "fs";
 import User from "../models/user.model";
 import Article from "../models/article.model";
+import Comment from "../models/comment.model";
 
 export const profile = async (req: Request, res: Response) => {
   try {
@@ -91,6 +92,8 @@ export const deleteUser = async (req: Request, res: Response) => {
     await User.findByIdAndDelete(req.user?.userId);
     // delete all articles of that user
     await Article.deleteMany({ user: req.user?.userId });
+    // delete all comments of that user
+    await Comment.deleteMany({ user: req.user?.userId });
 
     return res.status(200).json({ message: "User deleted" }) as any;
   } catch (err) {
