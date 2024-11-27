@@ -25,10 +25,12 @@ export const createComment = async (req: Request, res: Response) => {
     await article.save();
 
     let populatedComment = await Comment.findById(comment._id)
-      .populate("user", "name")
+      .populate("user", "name profileImg createdAt")
       .exec();
 
-    return res.status(200).json({ message: "Comment posted" }) as any;
+    return res
+      .status(200)
+      .json({ message: "Comment posted", comment: populatedComment }) as any;
   } catch (err) {
     console.error("Error creating a comment", err);
     return res.status(500).json({ message: "Internal server error" }) as any;
