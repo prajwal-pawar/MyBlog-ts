@@ -8,8 +8,7 @@ interface IArticle extends Document {
   user: mongoose.Schema.Types.ObjectId;
   slug: string;
   views: number;
-  //   comments: string[];
-  //   comments: mongoose.Schema.Types.ObjectId[];
+  comments: mongoose.Schema.Types.ObjectId[];
 }
 
 const articleSchema: Schema = new mongoose.Schema<IArticle>(
@@ -45,12 +44,12 @@ const articleSchema: Schema = new mongoose.Schema<IArticle>(
       default: 0,
     },
     // array of id's of all comments in article
-    //   comments: [
-    //     {
-    //       type: mongoose.Schema.Types.ObjectId,
-    //       ref: "Comment",
-    //     },
-    //   ],
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
   },
   {
     timestamps: true,
