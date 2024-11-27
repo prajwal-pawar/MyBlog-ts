@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Article from "../models/article.model";
+import Comment from "../models/comment.model";
 
 export const createArticle = async (req: Request, res: Response) => {
   try {
@@ -80,8 +81,16 @@ export const getArticleById = async (req: Request, res: Response) => {
 export const getArticleBySlug = async (req: Request, res: Response) => {
   try {
     let article = await Article.findOne({ slug: req.params.slug })
-      // .populate("user", "username")
+      // populate for articles
       .populate("user", "name")
+      // populate for comments
+      .populate({
+        path: "comments",
+        populate: {
+          path: "user",
+          select: "name profileImg createdAt", // populate only name, profileImg, createdAt
+        },
+      })
       .exec();
 
     if (!article) {
@@ -148,6 +157,9 @@ export const deleteArticle = async (req: Request, res: Response) => {
     }
 
     await article.deleteOne();
+
+    // delete comments on that article
+    await Comment.deleteMany({ article: req.params.id });
 
     return res
       .status(200)
