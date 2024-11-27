@@ -8,6 +8,6 @@ import authenticateToken from "../middlewares/auth";
 const router = express.Router();
 
 router.post("/create", authenticateToken, createComment);
-router.delete("/delete", authenticateToken, deleteComment);
+router.delete("/delete/:id", authenticateToken, deleteComment);
 
 export default router;
